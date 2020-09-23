@@ -1,8 +1,4 @@
-//
-//  main.cpp
-//  task2
-//
-//  Created by Дарья Землянская on 20.09.2020.
+//  Created by Дарья Землянская on 23.09.2020.
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
 #include <stdio.h>
@@ -53,7 +49,7 @@ int main(){
     for (int i; i < n; ++i){
         std::cin >> a[i];
     }
-    mergeSort(a, 0, (a.size() - 1)); // вызываем функцию сортировки
+    mergeSort(a, 0, (a.size() - 1));
     Print(a);
   return 0;
 }

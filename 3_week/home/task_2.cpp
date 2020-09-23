@@ -46,7 +46,7 @@ int main(){
     std::cin >> n;
     std::vector<int> a(n);
     std::cout << "Elements: ";
-    for (int i; i < n; ++i){
+    for (int i = 0; i < n; ++i){
         std::cin >> a[i];
     }
     mergeSort(a, 0, (a.size() - 1));

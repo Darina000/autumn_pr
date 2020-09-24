@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 void Print(const std::vector <int> &a){
     for (int i : a){
@@ -13,31 +15,31 @@ void Print(const std::vector <int> &a){
     std::cout << std::endl;
 }
 
+void merge(std::vector <int> &a, int l, int m, int r)
+{
+    int i, j;
+  std::vector<int> v2 (r-l+1);
+    for (i = m+1; i > l; i--){
+        v2[i-1] = a[i-1];
+    }
+    for (j = m; j < r; j++){
+        v2[r+m-j] = a[j+1];
+    }
+  for (int k = l; k <= r; k++) {
+      if (v2[i] > v2[j])
+          a[k] = v2[j--];
+      else
+          a[k] = v2[i++];
+  }
+}
+
 void mergeSort(std::vector <int> &a, int l, int r)
 {
   if (l == r) return;
   int mid = (l + r) / 2;
   mergeSort(a, l, mid);
   mergeSort(a, mid + 1, r);
-  int i = l;
-  int j = mid + 1;
-    std::vector<int> tmp (5);
-    for (int step = 0; step < r - l + 1; step++)
-    {
-        if ((j > r) || ((i <= mid) && (a[i] < a[j])))
-        {
-            tmp[step] = a[i];
-            i++;
-            
-        }else
-        {
-            tmp[step] = a[j];
-            j++;
-        }
-        
-    }
-  for (int step = 0; step < r - l + 1; step++)
-    a[l + step] = tmp[step];
+  merge(a, l, mid, r);
 }
 
 int main(){
@@ -49,7 +51,7 @@ int main(){
     for (int i = 0; i < n; ++i){
         std::cin >> a[i];
     }
-    mergeSort(a, 0, (a.size() - 1));
+    mergeSort(a, 0, (a.size() - 1)); // вызываем функцию сортировки
     Print(a);
   return 0;
 }

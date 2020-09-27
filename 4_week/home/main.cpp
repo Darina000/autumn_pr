@@ -1,7 +1,3 @@
-//
-//  main.cpp
-//  task1
-//
 //  Created by Дарья Землянская on 26.09.2020.
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
@@ -10,8 +6,6 @@
 #include <vector>
 #include <cmath>
 #include <string>
-
-const double PI = 3.14159265;
 
 struct City{
     City():name("Noname"), street({"None"}), distantion({0}) {
@@ -38,7 +32,7 @@ struct City{
     void save_name(std::string name){
         old.push_back(name);
     }
-    
+    const double PI = 3.14159265;
     double Gaversinus(const std::vector <double>& d1 ,const std::vector <double>& d2) {
         double R = 6371; // радиус Земли в км.
         double lat = (d2[0]-d1[0])*(PI/180);

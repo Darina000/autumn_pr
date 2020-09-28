@@ -7,6 +7,7 @@
 #include <cmath>
 #include <string>
 
+
 struct City{
     City():name("Noname"), street({"None"}), distantion({0}) {
     }
@@ -32,7 +33,9 @@ struct City{
     void save_name(std::string name){
         old.push_back(name);
     }
+    
     const double PI = 3.14159265;
+    
     double Gaversinus(const std::vector <double>& d1 ,const std::vector <double>& d2) {
         double R = 6371; // радиус Земли в км.
         double lat = (d2[0]-d1[0])*(PI/180);
@@ -42,8 +45,8 @@ struct City{
         return d;
     }
     
-    void dist(const struct City& a){
-        std::cout << Gaversinus(distantion, a.distantion) <<  std::endl;
+    void dist(const struct City* a){
+        std::cout << Gaversinus(distantion, a->distantion) <<  std::endl;
     }
     
 };
@@ -63,19 +66,23 @@ void Print_v(const std::vector <double>& v){
 
 
 int main() {
+    
     std::vector <std::string> v1 = {"Nevskiy", "Ligovskiy", "Sadovaya"};
     std::vector <double> d1 = {59.9, 30.34};
-    City Peter = {"St. Petersburg", v1, d1};
     
-    Peter.change_name("Petrograd");
-    Peter.change_name("Leningrad");
-    Print_v(Peter.old);
+    City Peter = {"St. Petersburg", v1, d1};
+    City* Pt = &Peter;
+    
+    Pt -> change_name("Petrograd");
+    Pt -> change_name("Leningrad");
+    Print_v(Pt -> old);
     
     std::vector <std::string> v2 = {"Babaeva", "Arbat", "Tverskaya"};
     std::vector <double> d2 = {55.7, 37.6};
     City Moscow = {"Moscow", v2, d2};
+    City * Msc = &Moscow;
     
-    Moscow.dist(Peter);
+    Msc -> dist(Pt);
 
     return 0;
 }

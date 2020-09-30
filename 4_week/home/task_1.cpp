@@ -1,3 +1,7 @@
+//  Created by Дарья Землянская on 26.09.2020.
+//  Copyright © 2020 Дарья Землянская. All rights reserved.
+//
+
 #include <iostream>
 #include <vector>
 #include <cmath>

@@ -29,8 +29,6 @@ struct City{
         old.push_back(name);
     }
     
-    
-    
     std::string name;
     std::vector <std::string> street;
     std::vector <double> distantion;
@@ -38,9 +36,9 @@ struct City{
     
 };
 
-void dist(const struct City* a, const struct City* b ){
-    std::vector <double> d1 = a->distantion;
-    std::vector <double> d2 = b->distantion;
+void dist(const struct City& a, const struct City& b ){
+    std::vector <double> d1 = a.distantion;
+    std::vector <double> d2 = b.distantion;
     const double PI = 3.14159265;
     double R = 6371.0;
     double lat = (d2[0]-d1[0])*(PI/180);
@@ -81,7 +79,8 @@ int main() {
     City Moscow("Moscow", v2, d2);
     City * Msc = &Moscow;
     
-    dist(Pt, Msc);
+    dist(*Pt, *Msc);
 
     return 0;
 }
+

@@ -19,14 +19,19 @@ enum class Month{
     December
 };
 
-void f(Month c){
+void f(Month c, bool a){
     switch(c){
         case Month::January:
             std::cout << "January: " << 31 << std::endl;
             break;
         case Month::February:
-            std::cout << "February: " << 29 << std::endl;
-            break;
+            if (a){
+                std::cout << "February: " << 29 << std::endl;
+                break;
+            }else{
+                std::cout << "February: " << 28 << std::endl;
+                break;
+            }
         case Month::March:
             std::cout << "March: " << 31 << std::endl;
             break;
@@ -57,6 +62,8 @@ void f(Month c){
         case Month::December:
             std::cout << "December: " << 31 << std::endl;
             break;
+        default:
+            break;
     }
 }
 int main() {
@@ -64,7 +71,7 @@ int main() {
     int number;
     std::cout << "Enter the month number: " ;
     std::cin >> number;
-    month = Month(number);
-    f(month);
+    month = static_cast<Month>(number);
+    f(month, false);
     return 0;
 }

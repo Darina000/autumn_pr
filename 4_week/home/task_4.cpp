@@ -6,61 +6,43 @@
 
 enum class Month{
     January = 1,
-    February,
-    March,
-    April,
-    May,
-    June,
-    July,
-    August,
-    September,
-    October,
-    November,
-    December
+    February = 2,
+    March = 3,
+    April = 4,
+    May = 5,
+    June = 6,
+    July = 7,
+    August = 8,
+    September = 9,
+    October = 10,
+    November = 11,
+    December = 12
 };
 
 void f(Month c, bool a){
     switch(c){
         case Month::January:
-            std::cout << "January: " << 31 << std::endl;
+        case Month::March:
+        case Month::May:
+        case Month::July:
+        case Month::August:
+        case Month::October:
+        case Month::December:
+            std::cout << 31 << std::endl;
             break;
         case Month::February:
             if (a){
-                std::cout << "February: " << 29 << std::endl;
+                std::cout << 29 << std::endl;
                 break;
             }else{
-                std::cout << "February: " << 28 << std::endl;
+                std::cout << 28 << std::endl;
                 break;
             }
-        case Month::March:
-            std::cout << "March: " << 31 << std::endl;
-            break;
         case Month::April:
-            std::cout << "April: " << 30 << std::endl;
-            break;
-        case Month::May:
-            std::cout << "May: " << 31 << std::endl;
-            break;
         case Month::June:
-            std::cout << "June: " << 30 << std::endl;
-            break;
-        case Month::July:
-            std::cout << "July: " << 31 << std::endl;
-            break;
-        case Month::August:
-            std::cout << "August: " << 31 << std::endl;
-            break;
         case Month::September:
-            std::cout << "September: " << 30 << std::endl;
-            break;
-        case Month::October:
-            std::cout << "October: " << 31 << std::endl;
-            break;
         case Month::November:
-            std::cout << "November: " << 30 << std::endl;
-            break;
-        case Month::December:
-            std::cout << "December: " << 31 << std::endl;
+            std::cout << 30 << std::endl;
             break;
         default:
             break;

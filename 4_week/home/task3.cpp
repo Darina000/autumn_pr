@@ -1,23 +1,19 @@
-//  Created by Дарья Землянская on 27.09.2020.
-//  Copyright © 2020 Дарья Землянская. All rights reserved.
-//
-
 #include <iostream>
 
 
 struct DataTime{
-    DataTime(unsigned short d, unsigned short m, unsigned short y, unsigned short h, unsigned short min, unsigned short sec, unsigned short milis): day(d), month(m), year(y), hour(h), minute(min), second(sec), milisecond(milis)
+    typedef unsigned short USh;
+    DataTime(USh d, USh m, USh y, USh h, USh min, USh sec, USh milis): day(d), year(y*13+m), hour(h), minute(min), second(sec), milisecond(milis)
     {
     }
     ~DataTime(){
     }
-    unsigned short day : 6;
-    unsigned short month : 4;
-    unsigned short year : 11;
-    unsigned short hour : 5;
-    unsigned short minute : 6;
-    unsigned short second : 6;
-    unsigned short milisecond : 10;
+    USh day : 5;
+    USh year : 17; //year*13+month
+    USh hour : 5;
+    USh minute : 6;
+    USh second : 6;
+    USh milisecond : 10;
 };
 
 int main() {

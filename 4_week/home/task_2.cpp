@@ -48,7 +48,7 @@ void add(Student& a, Lesson& b){
     a.lessons.push_back(&b);
 }
 
-void Print_v(const struct Lesson& v){
+void Print_v(const Lesson& v){
     std::cout << v.title << ":" << std::endl;
     for (auto i: v.students){
         std::cout << i->name << " ";
@@ -56,7 +56,7 @@ void Print_v(const struct Lesson& v){
     std::cout << std::endl;
 }
 
-void Print_v(const struct Student& v){
+void Print_v(const Student& v){
     std::cout << v.name << ":" << std::endl;
     for (auto i: v.lessons){
         std::cout << i->title << " ";

@@ -36,7 +36,7 @@ struct City{
     
 };
 
-void dist(const struct City& a, const struct City& b ){
+void dist(const  City& a, const  City& b ){
     std::vector <double> d1 = a.distantion;
     std::vector <double> d2 = b.distantion;
     const double PI = 3.14159265;

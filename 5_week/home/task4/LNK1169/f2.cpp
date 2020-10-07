@@ -6,6 +6,4 @@
 #include "f.hpp"
 #include <iostream>
 
-//void f(){
-//    std::cout << "f2";
-//}
+//int n = 29;

@@ -5,6 +5,4 @@
 #include "f.hpp"
 #include <iostream>
 
-//void f(){
-//    std::cout << "f" << std::endl;
-//}
+//int x = 5;

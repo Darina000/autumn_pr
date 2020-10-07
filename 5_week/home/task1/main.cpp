@@ -3,27 +3,11 @@
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
 
-#include <iostream>
 #include <vector>
 #include <cmath>
 #include <string>
 
 #include "City.hpp"
-
-void Print_v(const std::vector <std::string>& v){
-    for (auto i: v){
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-}
-void Print_v(const std::vector <double>& v){
-    for (auto i: v){
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-}
-
-
 
 int main() {
     
@@ -35,7 +19,6 @@ int main() {
     
     Pt -> change_name("Petrograd");
     Pt -> change_name("Leningrad");
-    Print_v(Pt -> City::return_old());
     
     std::vector <std::string> v2 = {"Babaeva", "Arbat", "Tverskaya"};
     std::vector <double> d2 = {55.7, 37.6};
@@ -43,6 +26,8 @@ int main() {
     City * Msc = &Moscow;
     
     dist(*Pt, *Msc);
-
+    
+    std::cout << Peter << std::endl;
+    
     return 0;
 }

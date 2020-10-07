@@ -7,6 +7,6 @@
 
 #include <stdio.h>
 
-void f();
+extern int n;
 
 #endif

@@ -10,6 +10,7 @@
  */
 
 int main() {
-    f();
+    int m;
+    m = n;
     return 0;
 }

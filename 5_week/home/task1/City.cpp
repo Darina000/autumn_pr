@@ -23,5 +23,15 @@ City::City(const std::string &a,const  std::vector <std::string> &s, const std::
     save_name(a);
 }
 
-
-
+std::ostream& operator<< (std::ostream &os, const City &city){
+    os << "Name: ";
+    for (auto i: city.return_old()){
+        os << i << " ";
+    }
+    os << std::endl;
+    os << "Distance : ";
+    for (auto j: city.return_dist()){
+        os << j << " ";
+    }
+    return os;
+};

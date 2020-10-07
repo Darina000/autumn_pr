@@ -5,6 +5,4 @@
 #include "f.hpp"
 #include <iostream>
 
-void f(){
-    std::cout << "f1";
-};
+int n = 3;

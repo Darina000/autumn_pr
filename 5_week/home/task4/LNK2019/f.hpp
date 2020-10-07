@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 
-extern void f();
+extern int x;
 
 #endif
+

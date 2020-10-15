@@ -2,17 +2,17 @@
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
 
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <algorithm>
 
 #include "f.hpp"
 
 
 int main() {
-    Frac first;
-    Frac sec;
+    Fraction first;
+    Fraction sec;
     //Frac first(3, 5);
     //Frac sec(6, 4);
     
@@ -29,7 +29,7 @@ int main() {
     first*=sec;
     sec/=first;
     
-    std::cout << first.To_Float() << std::endl;
+    
     
     
     return 0;

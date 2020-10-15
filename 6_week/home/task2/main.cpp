@@ -25,7 +25,7 @@ int main() {
     first/sec;
     first + sec;
     first - sec;
-    std::cout << (first > sec) << std::endl; 
+    //std::cout << (first > sec) << std::endl; 
     first*=sec;
     sec/=first;
     

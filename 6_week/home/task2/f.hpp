@@ -2,56 +2,61 @@
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
 
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <algorithm>
 
 
 
-class Frac{
+class Fraction{
 public:
-    Frac(signed int x=1.0, int y=1.0): num(x), den(y)
-    {}
-    ~Frac(){
-    };
     
-    const auto getNumerator() const {return num;};
-    const auto getDenominator() const {return den;};
+    Fraction(int x = 1, int y = 1): m_num(x), m_den(y){
+        reduce();
+    }
+    Fraction(const std::string &string);
+    ~Fraction() = default;
     
-    double To_Float();
-    // fraction reduction
-    void reduce();
+    const auto getNumerator() const {return m_num;};
+    const auto getDenominator() const {return m_den;};
     
-    Frac& operator+= (Frac const& frac);
-    Frac& operator-= (Frac const& frac);
-    Frac& operator*= (Frac const& frac);
-    Frac& operator/= (Frac const& frac);
+    explicit operator float() const{return (m_num*1.0)/(m_den*1.0);};
     
-    friend bool operator== (const Frac &c1, const Frac &c2);
-    friend bool operator!= (const Frac &c1, const Frac &c2);
+    Fraction& operator+= (const Fraction& frac);
+    Fraction& operator-= (const Fraction& frac);
+    Fraction& operator*= (const Fraction& frac);
+    Fraction& operator/= (const Fraction& frac);
     
-    friend bool operator> (const Frac &d1, const Frac &d2);
-    friend bool operator<= (const Frac &d1, const Frac &d2);
+    friend bool operator== (const Fraction &farc1, const Fraction &frac2);
+    friend bool operator!= (const Fraction &frac1, const Fraction &frac2);
     
-    friend bool operator< (const Frac &d1, const Frac &d2);
-    friend bool operator>= (const Frac &d1, const Frac &d2);
+    friend bool operator> (const Fraction &frac1, const Fraction &frac2);
+    friend bool operator<= (const Fraction &frac1, const Fraction &frac2);
     
-    Frac& operator++();
-    Frac& operator--();
+    friend bool operator< (const Fraction &frac1, const Fraction &frac2);
+    friend bool operator>= (const Fraction &frac1, const Fraction &frac2);
     
-    friend std::ostream& operator<< (std::ostream &os, const Frac &frac);
-    friend std::istream& operator>> (std::istream &in, Frac &frac);
+    Fraction& operator++();
+    Fraction operator ++(int);
+    Fraction& operator--();
+    Fraction operator--(int);
+    
+    friend std::ostream& operator<< (std::ostream &os, const Fraction &frac);
+    friend std::istream& operator>> (std::istream &in, Fraction &frac);
     
 private:
-    signed int num;
-    int den;
+    int m_num;
+    int m_den;
+    
+    void reduce();
 };
 
 int gcd(int a, int b);
 int lcm(int a, int b);
-Frac operator*(const Frac &frac1, const Frac &frac2);
-Frac operator/(const Frac &frac1, const Frac &frac2);
-Frac operator-(const Frac &frac1, const Frac &frac2);
-Frac operator+(const Frac &frac1, const Frac &frac2);
+Fraction operator*(const Fraction &frac1, const Fraction &frac2);
+Fraction operator/(const Fraction &frac1, const Fraction &frac2);
+Fraction operator-(const Fraction &frac1, const Fraction &frac2);
+Fraction operator+(const Fraction &frac1, const Fraction &frac2);
+
 

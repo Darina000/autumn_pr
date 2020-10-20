@@ -6,78 +6,74 @@
 #include <vector>
 #include <cstdint>
 #include <utility>
+
 class Cass{
 private:
-    char *       m_data;
+    int *       m_data;
     std::size_t  m_length;
     std::vector<int>  m_vector;
     
 public:
     Cass();
-    Cass(char c);
-    Cass(const char * c_n);
+    Cass(int c);
+    Cass(const int * c_n);
     Cass(const Cass & other);
-    Cass(const int vect);
+    Cass(std::vector<int> vect);
     Cass(Cass && other);
     ~Cass();
     
     void swap(Cass & other);
     
-    void Prt_data();
-    void Prt_lenght();
-    void Prt_vector();
     
     Cass & operator= (const Cass & other);
     Cass & operator= (Cass && other);
+    
+    friend std::ostream& operator<< (std::ostream &out, const Cass &cass);
 };
 
-//конструктор по умолчанию
-Cass::Cass() : m_length(0), m_data(nullptr), m_vector{}
-{}
+std::ostream& operator<< (std::ostream &out, const Cass &cass)
+{
+    out << "lenght " << cass.m_length << " data " ;
+    if (cass.m_data != nullptr){
+        for (auto i = 0; i < cass.m_length; ++i){
+            out << cass.m_data[i] << " ";
+        }
+    }
+    out << "vector ";
+    for (auto i: cass.m_vector){
+        std::cout << i;
+    }
+    out << std::endl;
+    return out;
+}
 
+//конструктор по умолчанию
+Cass::Cass() : m_length(0), m_data(nullptr), m_vector{0}
+{
+    
+}
 //пользовательский конструктор для символа
-Cass::Cass(char c) : m_length(1)
+Cass::Cass(int c) : m_length(1)
 {
-    m_data = new char[1];
+    m_data = new int[1];
     m_data[0] = c;
-    m_vector[0] = c;
+    m_vector.push_back(1);
 }
-// пользовательский конструктор дл€ —-строки
-Cass::Cass(const char * c_n)
-{
-    if (c_n)
-    {
-        m_length = strlen(c_n);
-        m_data = new char[m_length];
-        for (std::size_t i = 0U; i < m_length; ++i){
-            m_data[i] = c_n[i];
-        }
-        for (std::size_t i = 0U; i < m_length; ++i){
-            m_vector[i] = c_n[i];
-        }
-    }
-    else
-    {
-        m_length = 0;
-        m_data = nullptr;
-        m_vector = {};
-    }
-}
+
 // пользовательский конструктор дл€ —- вектора
-Cass::Cass(const int vect): m_length(1), m_data(nullptr)
+Cass::Cass(std::vector<int> vect): m_length(1), m_data(nullptr)
 {
-    m_vector[0] = vect;
+    m_vector = vect;
+    
 }
+
 //копирующий конструктор
 Cass::Cass(const Cass & other) :
-    m_length(other.m_length)
+    m_length(other.m_length), m_vector(other.m_vector)
 {
-    m_data = new char[m_length];
+    m_data = new int[m_length];
     for (std::size_t i = 0U; i < m_length; ++i){
         m_data[i] = other.m_data[i];
-    }
-    for (std::size_t i = 0U; i < m_length; ++i){
-        m_vector[i] = other.m_vector[i];
     }
 }
 //перемещающий конструктор
@@ -86,7 +82,7 @@ m_length(other.m_length), m_data(other.m_data), m_vector(std::move(other.m_vecto
 {
     other.m_length = 0;
     other.m_data = nullptr;
-    other.m_vector = {};
+    m_vector.clear();
     
 }
 //деструктор
@@ -115,10 +111,13 @@ Cass & Cass::operator= (const Cass & other)
         delete[] m_data;
 
     m_length = other.m_length;
-    m_data = new char[m_length];
-    for (std::size_t i = 0; i < m_length; ++i)
-        m_data[i] = other.m_data[i];
-
+    m_vector = other.m_vector;
+    m_data = new int[m_length];
+    if (other.m_data != nullptr){
+        for (auto i = 0; i < m_length; ++i){
+            m_data[i] = other.m_data[i];
+        }
+    }
     return *this;
 }
 
@@ -126,14 +125,15 @@ Cass & Cass::operator= (const Cass & other)
 Cass & Cass::operator= (Cass && other)
 {
     if (this == &other) return *this;
-
+    
     if (m_data != nullptr)
         delete[] m_data;
 
     swap(other);
     other.m_length = 0;
     other.m_data = nullptr;
-    other.m_vector = std::move(m_vector);
+    other.m_vector.clear();
+    
 
     return *this;
 }
@@ -143,6 +143,30 @@ Cass & Cass::operator= (Cass && other)
 
 
 int main() {
-    Cass a(5);
+    int a = 5;
+    int b = 10;
+    int n = 5;
+    int* arr = new int [n]{3, 6, 1, 7, 3};
+    std::vector<int> v1 = {0, 7, 3};
+    std::vector<int> v2 = {5, 2, 9};
+    Cass one(a);
+    Cass two;
+    
+    Cass vec1(v1);
+    Cass vec2(v2);
+    Cass vec(3);
+    Cass v = 4;
+    
+    std::cout << vec1;
+    std::cout << vec2;
+    vec2 = vec1;
+    std::cout << vec1;
+    std::cout << vec2;
+    vec2 =vec;
+    std::cout << vec2;
+    std::cout << v;
+    vec = Cass(12);
+    std::cout << vec;
     return 0;
 }
+

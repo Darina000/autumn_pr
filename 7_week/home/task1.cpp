@@ -208,6 +208,7 @@ int main() {
     std::vector<Point> triang ={t1, t2, t3};
     std::vector<Point> quad ={el_1, el_2, el_3, el_4};
     std::vector<Point> rec ={t1, t2, t3, el_1};
+    std::vector<Point> squa ={t1, t2};
 
     Triangle triangle(triang);
     std::cout << triangle;
@@ -224,6 +225,9 @@ int main() {
     Rectangle rectangle(rec);
     std::cout << rectangle;
     
-    Figure *masssive[4] = { &triangle, &ellipce, &circle, &quadrangle};
+    Square square(squa);
+    std::cout << square;
     
+    Figure *masssive1[4] = { &triangle, &ellipce, &circle, &quadrangle};
+    std::vector <Figure*> masssive2 = { &triangle, &ellipce, &circle, &quadrangle};
 }

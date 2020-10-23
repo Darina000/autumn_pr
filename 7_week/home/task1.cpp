@@ -18,7 +18,7 @@ class Figure {
 public:
         Figure(const std::vector<Point>& arrr): aray(arrr) {
         }
-        ~Figure(){};
+        virtual ~Figure() = default;
     
         virtual double calc_square() const = 0;
         virtual double calc_perimeter() const = 0;
@@ -27,10 +27,7 @@ public:
 
 protected:
         virtual void Print(std::ostream &out) const = 0;
-    
-    
-private:
-    std::vector <Point> aray;
+        std::vector <Point> aray;
 };
 
 
@@ -53,78 +50,78 @@ class Triangle: public Figure {
             m_b = distance(arrr[1], arrr[2]);
             m_c = distance(arrr[2], arrr[0]);
         }
-        ~Triangle(){};
+        ~Triangle() = default;
     
-        double calc_square() const {
+        virtual double calc_square() const override {
             double m_p = (m_a + m_b + m_c)/2;
             return sqrt(m_p*(m_p - m_a) * (m_p - m_c) * (m_p - m_b));
         }
  
-        double calc_perimeter() const {
+        virtual double calc_perimeter() const override{
             return m_a + m_b + m_c;
         }
     
     protected:
-        void Print(std::ostream &out) const{
+        virtual void Print(std::ostream &out) const override{
             out << "Side: "<< m_a << " " << m_b << " " << m_c << std::endl;
             out << "Perimeter: " << calc_perimeter() << std::endl;
             out << "Square: " << calc_square() << std::endl;
         }
     private:
-        double m_a, m_b, m_c;
+        double m_a;
+        double m_b;
+        double m_c;
 };
  
 
 class Ellipce: public Figure {
     public:
-        Ellipce(const Point O, double o_a, double o_b = 0, const std::vector<Point>& arrr = {}):Figure(arrr), center(O), a(o_a), b(o_b){
+        Ellipce(const Point O, double o_a, double o_b):Figure({O}), a(o_a), b(o_b){
         }
-        ~Ellipce(){};
+        ~Ellipce() = default;
     
-        double calc_square() const {
+        virtual double calc_square() const override{
             return  M_PI * a * b;
         }
  
-        double calc_perimeter() const {
+        virtual double calc_perimeter() const override{
             return 4 * (M_PI * a*b +(a-b)*(a-b))/(a+b);
         }
     protected:
-        void Print(std::ostream &out) const{
-            out << "Center: "<< center.x << " " << center.y << std::endl;
+        virtual void Print(std::ostream &out) const override{
+            out << "Center: "<< aray[0].x << " " << aray[0].y << std::endl;
             out << "Half-shafts: "<< a << " " << b << std::endl;
             out << "Perimeter: " << calc_perimeter() << std::endl;
             out << "Square: " << calc_square() << std::endl;
         }
+    protected:
+        double a;
     private:
-        const Point center;
-        double a, b;
+        double b;
 };
 
 
 
 class Circle: public Ellipce {
     public:
-        Circle(const Point O, double o_a): Ellipce(O, o_a), r(o_a), center(O){
+    Circle(const Point O, double o_a): Ellipce(O, o_a, o_a ){
         }
     
-        ~Circle(){};
+        ~Circle() = default;
     
-        double calc_perimeter() const {
-            return 2 * M_PI * r;
+        virtual double calc_perimeter() const override{
+            return 2 * M_PI * a;
         }
-        double calc_square() const {
-            return  M_PI * r * r;
+        virtual double calc_square() const override{
+            return  M_PI * a * a;
            }
     protected:
-        void Print(std::ostream &out) const{
-            out << "Center: "<< center.x << " " << center.y << std::endl;
-            out << "Radius: "<< r << std::endl;
+        virtual void Print(std::ostream &out) const override{
+            out << "Center: "<< aray[0].x << " " << aray[0].y << std::endl;
+            out << "Radius: "<< a << std::endl;
             out << "Perimeter: " << calc_perimeter() << std::endl;
             out << "Square: " << calc_square() << std::endl;
         }
-    private:
-        const Point center;
-        double r;
 };
 
 
@@ -138,9 +135,9 @@ class Quadrangle: public Figure {
             d = distance(arrr[3], arrr[0]);
             m_q = distance(arrr[0], arrr[2]);
         }
-        ~Quadrangle(){};
+        ~Quadrangle() = default;
     
-        double calc_square() const {
+        virtual double calc_square() const override{
             double m_p1 = a + b + m_q;
             double m_p2 = c + d + m_q;
             double s1 = sqrt(m_p1 * (m_p1 - a) * (m_p1 - b) * (m_p1 - m_q));
@@ -148,17 +145,21 @@ class Quadrangle: public Figure {
             return s1+s2;
         }
  
-        double calc_perimeter() const {
+        virtual double calc_perimeter() const override{
             return a + b + c + d;
         }
     protected:
-        void Print(std::ostream &out) const{
+        virtual void Print(std::ostream &out) const override{
             out << "Side: "<< a << " " << b << " " << c << " " << d << std::endl;
             out << "Perimeter: " << calc_perimeter() << std::endl;
             out << "Square: " << calc_square() << std::endl;
         }
     private:
-           double a, b, c, d, m_q;
+        double a;
+        double b;
+        double c;
+        double d;
+        double m_q;
 };
 
  
@@ -169,9 +170,9 @@ class Rectangle: public Quadrangle{
             a = distance(arrr[0], arrr[1]);
             b = distance(arrr[1], arrr[2]);
         }
-        ~Rectangle(){};
+        ~Rectangle() = default;
     
-        double calc_square() const {
+        virtual double calc_square() const override{
             return a * b;
         }
     private:
@@ -184,8 +185,8 @@ class Square: public Rectangle{
         Square(const std::vector<Point>& arrr): Rectangle(arrr){
             a = distance(arrr[0], arrr[1]);
         }
-        ~Square(){};
-       double calc_perimeter() const {
+        ~Square() = default;
+       virtual double calc_perimeter() const override{
             return 4 * a;
         }
     private:
@@ -231,3 +232,4 @@ int main() {
     Figure *masssive1[4] = { &triangle, &ellipce, &circle, &quadrangle};
     std::vector <Figure*> masssive2 = { &triangle, &ellipce, &circle, &quadrangle};
 }
+

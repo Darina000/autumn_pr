@@ -13,13 +13,13 @@ using result_t = double;
 using error_t = Error;
 
 union Value{
-    error_t error; //тут ошибка из перечисления
+    error_t error; 
     result_t result;
 };
 
 struct Answer
 {
-    bool has_error; //если true, то читать поле error, иначе result
+    bool has_error; 
     Value value;
 };
 

@@ -4,57 +4,48 @@
 
 #include <iostream>
 
-union MyUnion{
-    double error = 0;
-    double result;
-};
-
 enum class Error{
-    DIV_ZERO,
-    MULT_ZERO,
-    OUT_OF_RANGE
+    FAILURE,
+    //...
 };
 
-double f(Error c, double j, double k){
-    MyUnion Result;
-    if (k == 0){
-        Result.error = 1;
-        c = Error::DIV_ZERO;
-    }
-    else if (j == 0){
-        Result.error = 1;
-        c = Error::MULT_ZERO;
-    }
-    else if ((j > 100000) || (k > 100000)){
-        Result.error = 1;
-        c = Error::OUT_OF_RANGE;
-    }
-    
-    if (Result.error != 0 ){
-        switch (c) {
-            case Error::DIV_ZERO:
-                std::cout << "Error: DIV_ZERO" << std::endl;
-                break;
-            case Error::MULT_ZERO:
-                std::cout << "Error: MULT_ZERO" << std::endl;
-                break;
-            case Error::OUT_OF_RANGE:
-                std::cout << "Error: OUT_OF_RANGE" << std::endl;
-                break;
-            default:
-                break;
-        }
-        return Result.error;
+using result_t = double;
+using error_t = Error;
+
+union Value{
+    error_t error; //тут ошибка из перечисления
+    result_t result;
+};
+
+struct Answer
+{
+    bool has_error; //если true, то читать поле error, иначе result
+    Value value;
+};
+
+Answer f(double j, double k){
+    Answer answer;
+    answer.value.result = j/k;
+    if ((k == 0) || (j > 100000) || (k > 100000) ){
+        answer.has_error = true;
+    }else{
+        answer.has_error = false;
     }
     
-    Result.result = j/k;
-    std::cout <<  Result.result << std::endl;
-    return Result.result;
+    if (answer.has_error == true){
+        answer.value.error = Error::FAILURE;
+    }else{
+        answer.value.result = j/k;
+    }
+    
+    return answer;
 }
 
 
 int main() {
-    Error error;
-    double m = f(error, 3, 1);
+
+    Answer ans = f(3, 0);
+    
     return 0;
 }
+

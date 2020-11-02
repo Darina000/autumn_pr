@@ -4,7 +4,6 @@
 #include<iostream>
 #include<vector>
 
-//Стандартный компаратор
 template <typename T>
 class standart_cmp
 {

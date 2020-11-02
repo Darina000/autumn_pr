@@ -60,7 +60,8 @@ void Merge(bool s, T *arr, int start, int end)
     }
 
 }
-template<typename T, typename cmp = standart_cmp<T>>
+
+template<typename T>
 void mergeSort(bool s, T *arr, int l, int r)
 {
     if (l < r)
@@ -72,6 +73,7 @@ void mergeSort(bool s, T *arr, int l, int r)
     }
 }
 
+
 template<typename T>
 void Print(T *arr, std::size_t N)
 {
@@ -80,6 +82,13 @@ void Print(T *arr, std::size_t N)
     std::cout << std::endl;
 }
 
+template<typename T, std::size_t N>
+void Print(T (&arr) [N])
+{
+    for (int i = 0; i < N; ++i)
+        std::cout << arr[i] << " ";
+    std::cout << std::endl;
+}
 
 int main()
 {
@@ -88,11 +97,11 @@ int main()
     int n = sizeof(arr1) / sizeof(int);
 
     std::cout << "Array Before Sorting: " << std::endl;
-    Print(arr1, n);
+    Print(arr1);
     mergeSort(s, arr1, 0, n - 1);
 
     std::cout << "Array After Sorting: " << std::endl;
-    Print(arr1, n);
+    Print(arr1);
 
     std::size_t m = 5;
     int *arr2 = new int[m] { 2, 1, 4, 7, 3 };

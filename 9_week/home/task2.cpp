@@ -21,6 +21,11 @@ private:
 template <typename T>
 class X{
 public:
+    using noreturn_type_resize = void;
+    using noreturn_type_erase = void;
+    using noreturn_type_swap = void;
+    
+    using lenght_size  = std::size_t;
     
     X();
     X(T c);
@@ -28,25 +33,24 @@ public:
     X(const X & other);
     X(X && other);
     
-    X(std::size_t length);
+    X(lenght_size length);
     
     ~X();
     
-    void resize(std::size_t newLenght);
-    void erase();
-    void swap(X & other);
+    noreturn_type_resize resize(lenght_size newLenght);
+    noreturn_type_erase erase();
+    noreturn_type_swap swap(X & other);
     std::size_t length() const;
     
-    T   operator[] (std::size_t index) const;
-    T & operator[] (std::size_t index);
+    T   operator[] (lenght_size index) const;
+    T & operator[] (lenght_size index);
     
     X & operator= (const X & other);
     X & operator= (X && other);
-
+    
 private:
     T *       m_data;
-    std::size_t  m_length;
-    
+    lenght_size  m_length;
 };
 
 template <typename T>
@@ -126,7 +130,7 @@ void X<T>::erase()
    }
 
 template <typename T>
-void X<T>::resize(std::size_t newLength)
+void X<T>::resize(lenght_size newLength)
    {
        if (newLength == m_length)
           // throw (MyException("newLength == m_length"));

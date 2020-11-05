@@ -112,4 +112,6 @@ int main()
 
     std::cout << "Array After Sorting: " << std::endl;
     Print(arr2, m);
+    
+    delete [] arr2;
 }

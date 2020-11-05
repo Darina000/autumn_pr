@@ -1,24 +1,14 @@
 //  Created by Дарья Землянская on 23.09.2020.
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <utility>
 
-template <typename T>
-class standart_cmp
-{
-public:
-static bool less(bool sort, const T &a, const T &b)
-    {
-        if (sort){
-            return a < b;
-        }
-        return a > b;
-    }
-};
 
-template<typename T, typename cmp = standart_cmp<T>>
-void Merge(bool s, T *arr, int start, int end)
+template<typename T>
+void Merge(T *arr, int start, int end, const std::function<bool()>& fn)
 {
     int z, x, y, mid;
     std::vector<T> temp(end -start + 1);
@@ -29,19 +19,34 @@ void Merge(bool s, T *arr, int start, int end)
 
     while (x <= mid && y <= end)
     {
-        if (cmp::less(s, arr[x], arr[y]))
-        {
-            temp[z] = arr[x];
-            ++x;
-            ++z;
-        }
-        else
-        {
-            temp[z] = arr[y];
-            ++y;
-            ++z;
+        if (fn()){
+            if  ((arr[x] > arr[y]))
+                {
+                    temp[z] = arr[x];
+                    ++x;
+                    ++z;
+                }
+            else{
+                    temp[z] = arr[y];
+                    ++y;
+                    ++z;
+                }
+        }else{
+            if  ((arr[x] < arr[y]))
+                {
+                    temp[z] = arr[x];
+                    ++x;
+                    ++z;
+                }
+            else
+                {
+                    temp[z] = arr[y];
+                    ++y;
+                    ++z;
+                }
         }
     }
+    
     while (x <= mid)
     {
         temp[z] = arr[x];
@@ -62,14 +67,14 @@ void Merge(bool s, T *arr, int start, int end)
 }
 
 template<typename T>
-void mergeSort(bool s, T *arr, int l, int r)
+void mergeSort(T *arr, int l, int r, const std::function<bool()>& fn)
 {
     if (l < r)
     {
         int mid = (l + r) / 2;
-        mergeSort(s, arr, l, mid);
-        mergeSort(s, arr, mid + 1, r);
-        Merge(s, arr, l, r);
+        mergeSort(arr, l, mid, fn);
+        mergeSort(arr, mid + 1, r, fn);
+        Merge(arr, l, r, fn);
     }
 }
 
@@ -92,13 +97,12 @@ void Print(T (&arr) [N])
 
 int main()
 {
-    bool s = false;
-    int arr1[] = { 1, 10, 10, 90, -32, 100, -1, 11, 9, 14, 3, 2, 20, 19 };
+    int arr1[] = { 1, 11, 9, 14, 3, 2, 20, 19, 10, 10, 90, -32, 100, -1};
     int n = sizeof(arr1) / sizeof(int);
 
     std::cout << "Array Before Sorting: " << std::endl;
     Print(arr1);
-    mergeSort(s, arr1, 0, n - 1);
+    mergeSort(arr1, 0, n - 1, [](){return false;});
 
     std::cout << "Array After Sorting: " << std::endl;
     Print(arr1);
@@ -108,7 +112,7 @@ int main()
     
     std::cout << "Array Before Sorting: " << std::endl;
     Print(arr2, m);
-    mergeSort(s, arr2, 0, m - 1);
+    mergeSort(arr2, 0, m - 1, [](){return false;});
 
     std::cout << "Array After Sorting: " << std::endl;
     Print(arr2, m);

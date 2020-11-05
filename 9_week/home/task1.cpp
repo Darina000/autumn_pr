@@ -7,8 +7,8 @@
 #include <utility>
 
 
-template<typename T>
-void Merge(T *arr, int start, int end, const std::function<bool()>& fn)
+template<typename T, typename F>
+void Merge(T *arr, int start, int end, F cmp)
 {
     int z, x, y, mid;
     std::vector<T> temp(end -start + 1);
@@ -19,8 +19,7 @@ void Merge(T *arr, int start, int end, const std::function<bool()>& fn)
 
     while (x <= mid && y <= end)
     {
-        if (fn()){
-            if  ((arr[x] > arr[y]))
+        if  (cmp(arr[x],  arr[y]))
                 {
                     temp[z] = arr[x];
                     ++x;
@@ -31,21 +30,7 @@ void Merge(T *arr, int start, int end, const std::function<bool()>& fn)
                     ++y;
                     ++z;
                 }
-        }else{
-            if  ((arr[x] < arr[y]))
-                {
-                    temp[z] = arr[x];
-                    ++x;
-                    ++z;
-                }
-            else
-                {
-                    temp[z] = arr[y];
-                    ++y;
-                    ++z;
-                }
         }
-    }
     
     while (x <= mid)
     {
@@ -66,15 +51,15 @@ void Merge(T *arr, int start, int end, const std::function<bool()>& fn)
 
 }
 
-template<typename T>
-void mergeSort(T *arr, int l, int r, const std::function<bool()>& fn)
+template<typename T, typename F>
+void mergeSort(T *arr, int l, int r, F cmp)
 {
     if (l < r)
     {
         int mid = (l + r) / 2;
-        mergeSort(arr, l, mid, fn);
-        mergeSort(arr, mid + 1, r, fn);
-        Merge(arr, l, r, fn);
+        mergeSort(arr, l, mid, cmp);
+        mergeSort(arr, mid + 1, r, cmp);
+        Merge(arr, l, r, cmp);
     }
 }
 
@@ -102,20 +87,23 @@ int main()
 
     std::cout << "Array Before Sorting: " << std::endl;
     Print(arr1);
-    mergeSort(arr1, 0, n - 1, [](){return false;});
+    mergeSort(arr1, 0, n - 1, [](int x, int y){return x>y;});
 
     std::cout << "Array After Sorting: " << std::endl;
     Print(arr1);
-
+    mergeSort(arr1, 0, n - 1, [](int x, int y){return x<y;});
+    Print(arr1);
+    
     std::size_t m = 5;
     int *arr2 = new int[m] { 2, 1, 4, 7, 3 };
     
     std::cout << "Array Before Sorting: " << std::endl;
     Print(arr2, m);
-    mergeSort(arr2, 0, m - 1, [](){return false;});
+    mergeSort(arr2, 0, m - 1, [](int x, int y){return x>y;});
 
     std::cout << "Array After Sorting: " << std::endl;
     Print(arr2, m);
     
     delete [] arr2;
 }
+

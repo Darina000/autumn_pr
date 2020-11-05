@@ -21,36 +21,37 @@ private:
 template <typename T>
 class X{
 public:
-    using noreturn_type_resize = void;
-    using noreturn_type_erase = void;
-    using noreturn_type_swap = void;
     
-    using lenght_size  = std::size_t;
+    using size_type  = std::size_t;
+    using reference  = X&;
+    using const_reference  = const X&;
     
     X();
-    X(T c);
-    X(const T * c);
-    X(const X & other);
+    X(T c, size_type lenght);
+    X(const T * c, size_type a);
+    X(const T * c, size_type a, T b);
+    X(const_reference other);
     X(X && other);
     
-    X(lenght_size length);
+    X(size_type length);
     
-    ~X();
+    ~X() noexcept{
+    };
     
-    noreturn_type_resize resize(lenght_size newLenght);
-    noreturn_type_erase erase();
-    noreturn_type_swap swap(X & other);
-    std::size_t length() const;
+    void resize(size_type newLenght);
+    void clear();
+    void swap(reference other) noexcept;
+    std::size_t length() const noexcept;
     
-    T   operator[] (lenght_size index) const;
-    T & operator[] (lenght_size index);
+    T   operator[] (size_type index) const;
+    T & operator[] (size_type index);
     
-    X & operator= (const X & other);
-    X & operator= (X && other);
+    reference operator= (const_reference other);
+    reference operator= (X && other);
     
 private:
     T *       m_data;
-    lenght_size  m_length;
+    size_type  m_length;
 };
 
 template <typename T>
@@ -59,11 +60,13 @@ X<T>::X(): m_data(nullptr), m_length(0)
 }
 
 template <typename T>
-X<T>::X(std::size_t length):m_length(length)
+X<T>::X(size_type length):m_length(length)
     {
-        assert(length >= 0);
         if (length > 0){
             m_data = new T[length];
+            for (std::size_t i = 0; i< length; ++i){
+                m_data[i] = 0;
+            }
         }
         else{
             m_data = nullptr;
@@ -73,21 +76,35 @@ X<T>::X(std::size_t length):m_length(length)
 
 
 template <typename T>
-X<T>::X(T c): m_length(1)
+X<T>::X(T c, size_type a): m_length(a)
 {
-    m_data = new T[1];
+    m_data = new T[m_length];
     *m_data = c;
 }
 
 template <typename T>
-X<T>::X(const T * c_)
+X<T>::X(const T * c_, size_type a): m_length(a)
 {
     if(c_)
     {
-        m_length = strlen(c_);
         m_data = new T[m_length];
-        for(std::size_t i = 0; i < m_length; ++i)
+        for(size_type i = 0; i < m_length; ++i)
             m_data[i] = c_[i];
+    }else{
+        m_length = 0;
+        m_data = nullptr;
+    }
+}
+
+
+template <typename T>
+X<T>::X(const T * c_, size_type a, T b): m_length(a)
+{
+    if(c_)
+    {
+        m_data = new T[m_length];
+        for(size_type i = 0; i < m_length; ++i)
+            m_data[i] = c_[b];
     }else{
         m_length = 0;
         m_data = nullptr;
@@ -95,7 +112,7 @@ X<T>::X(const T * c_)
 }
 //копирующий конструктор
 template <typename T>
-X<T>::X(const X & other):
+X<T>::X(const_reference other):
 m_length(other.m_length)
 {
     m_data = new T[m_length];
@@ -115,14 +132,7 @@ m_data(other.m_data)
 
 
 template <typename T>
-X<T>::~X()
-{
-    if(m_data != nullptr)
-    delete[] m_data;
-}
-
-template <typename T>
-void X<T>::erase()
+void X<T>::clear()
    {
        delete[] m_data;
        m_data = nullptr;
@@ -130,17 +140,10 @@ void X<T>::erase()
    }
 
 template <typename T>
-void X<T>::resize(lenght_size newLength)
+void X<T>::resize(size_type newLength)
    {
        if (newLength == m_length)
-          // throw (MyException("newLength == m_length"));
            return;
-       
-       if (newLength <= 0)
-       {
-           erase();
-           return;
-       }
 
        T *data = new T[newLength];
        if (m_length > 0)
@@ -155,39 +158,34 @@ void X<T>::resize(lenght_size newLength)
    }
 
 template <typename T>
-void X<T>::swap(X & other)
+void X<T>::swap(reference other) noexcept
 {
     std::swap(m_data, other.m_data);
     std::swap(m_length, other.m_length);
 }
 
 template <typename T>
-std::size_t X<T>::length() const
+std::size_t X<T>::length() const noexcept
 {
     return m_length;
 }
 
 template <typename T>
-T X<T>::operator[] (std::size_t index) const
+T X<T>::operator[] (size_type index) const
 {
-    if (index >= m_length) { throw (MyException("index >= m_length")); };
     return m_data[index];
 }
 
 template <typename T>
-T & X<T>::operator[] (std::size_t index)
+T & X<T>::operator[] (size_type index)
 {
-    if (index >= m_length) { throw (MyException("index >= m_length")); };
     return m_data[index];
 }
 
 template <typename T>
-X<T> & X<T>::operator= (const X & other)
+X<T> & X<T>::operator= (const_reference other)
 {
     if (this == &other) return *this;
-
-    if(m_data != nullptr)
-        delete[] m_data;
 
     m_length = other.m_length;
     m_data = new T[m_length];
@@ -202,9 +200,6 @@ X<T> & X<T>::operator= (X && other)
 {
     if (this == &other) return *this;
 
-    if (m_data != nullptr)
-        delete[] m_data;
-
     swap(other);
     other.m_length = 0;
     other.m_data = nullptr;
@@ -218,6 +213,14 @@ int main()
     try{
     std::size_t a = 10;
     X<int> array(a);
+        
+    X<int> ar(4);
+        
+    for (int i = 0; i<ar.length(); ++i){
+        std::cout << ar[i] << " ";
+    }
+        std::cout << std::endl;
+        
     
     for (int i=0; i<10; i++){
            array[i] = i+1;
@@ -227,6 +230,7 @@ int main()
     for (int i = 0; i<array.length(); ++i){
         std::cout << array[i] << " ";
     }
+        std::cout << std::endl;
     }
     catch(const MyException &c){
         std::cerr << c.what();

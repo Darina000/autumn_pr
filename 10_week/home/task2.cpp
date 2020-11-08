@@ -21,6 +21,6 @@ auto Sum2(Arg first, Args... Values)
 
 
 int main() {
-    std::cout << Sum2<int>(3, 4) << std::endl;
+    Sum2<int>(3, 4);
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-template<class... T>
+template<typename... T>
 auto Sum1(T... Values)
 {
   return (sizeof(Values) + ...);
@@ -17,9 +17,9 @@ auto Sum2()
 }
 
 template<typename Arg, typename... Args>
-auto Sum2(Arg first, Args... rest)
+auto Sum2(Arg first, Args... Values)
 {
-  return sizeof(first) + Sum2(rest...);
+  return sizeof(first) + Sum2(Values...);
 }
 
 

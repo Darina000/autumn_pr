@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <vector>
 
 template<typename Derived>
 class Base{

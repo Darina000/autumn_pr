@@ -4,23 +4,15 @@
 
 #include <iostream>
 
-
-auto Sum2()
+template<typename T, typename ... TT>
+auto make(TT ... args)
 {
-  return 0;
-}
-
-template<typename Arg, typename... Args>
-auto Sum2(Arg first, Args... Values)
-{
-    Arg* A = new Arg;
-    Sum2(Values...);
-    
-    return *A;
+    return new T(args...);
 }
 
 
 int main() {
-    Sum2<int>(3, 4);
+    auto ptr = make<int> (5);
+    delete ptr;
     return 0;
 }

@@ -3,9 +3,7 @@
 //
 
 #include <type_traits>
-#include <new>
 #include <iostream>
-#include <string>
 
 template<bool B, class T = void>
 struct enable_if {};

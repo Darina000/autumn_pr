@@ -17,10 +17,6 @@ struct if_then_else < false, True_Type, False_Type >
     using type = False_Type;
 };
 
-template < bool C, typename TT, typename FT >
-using if_then_else_t = typename if_then_else < C, TT, FT >::type;
-
-
 template< class T >
 struct decay {
 private:

@@ -76,9 +76,6 @@ public:
     >;
 };
 
-//template<typename T, typename U>
-//using dec_equiv = typename std::is_same<typename decay<T>::type, U>::type;
-
 template<typename T, typename U>
 inline const bool is_same_v = std::is_same_v< typename decay<T>::type, U>;
 

@@ -15,15 +15,11 @@ template<typename Ret, typename... Args>
 struct is_function<Ret(Args...) const> : std::true_type {};
 
 //для примера
-struct A {
-    int fun() const&;
-};
 auto func(){return 0;};
 
 int main()
 {
     std::cout << std::boolalpha;
-    std::cout << is_function<A>::value << std::endl;
     std::cout << is_function<int(int)>::value << std::endl;
     std::cout << is_function<int>::value << std::endl;
     std::cout << is_function<int() const&>::value << std::endl;

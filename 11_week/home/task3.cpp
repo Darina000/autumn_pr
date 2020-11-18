@@ -61,7 +61,7 @@ public:
             add_pointer, //если да - возвращаем указатель
             remove_const<U> //в противном случая, удаляем константность
         >::type
-    >::type; // // и определяем тип как тип typedef члена
+    >::type;
 };
 
 template<typename T, typename U>

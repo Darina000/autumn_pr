@@ -12,11 +12,12 @@ struct enable_if {};
 template<typename T>
 struct enable_if<true, T> { using type = T;};
 
-//варианты использования enable_if
-// тип возврата (bool) допустим, если T - целочисленный тип:
-
+//псевдоним
 template <typename T>
 using is_integral = typename std::is_integral<T>;
+
+//варианты использования enable_if
+// тип возврата (bool) допустим, если T - целочисленный тип:
 
 
 template <typename T>

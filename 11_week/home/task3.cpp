@@ -17,37 +17,66 @@ struct if_then_else < false, True_Type, False_Type >
     using type = False_Type;
 };
 
-template< class T >
+//удаление константности и псевдоним
+template< typename T > struct remove_const{using type = T; };
+template<typename T>
+using remove_t = typename remove_const<T>::type;
+
+
+//реализации из 1 задачи - основа и специализации для обычной, вариативной, константной
+template<typename>
+struct is_function : std::false_type { };
+
+template<typename Ret, typename... Args>
+struct is_function<Ret(Args...)> : std::true_type {};
+ 
+template<typename Ret, typename... Args>
+struct is_function<Ret(Args...) const> : std::true_type {};
+
+
+template<typename T>
+struct is_array : std::false_type {};
+ 
+template<typename T>
+struct is_array<T[]> : std::true_type {};
+ 
+template<typename T, std::size_t N>
+struct is_array<T[N]> : std::true_type {};
+
+
+
+template< typename T >
 struct decay {
 private:
-    typedef typename std::remove_reference<T>::type U; // удаляем ссылку
+    using U = typename std::remove_reference<T>::type; // удаляем ссылку
+    using remove_extent = typename std::remove_extent<U>::type*;
+    using add_pointer = typename std::add_pointer<U>::type;
 public:
     //используем if_dev_else в зависимости что за тип T
-    typedef typename if_then_else<
-        std::is_array<U>::value, //если ссылка
-        typename std::remove_extent<U>::type*, //удаляем её
+    using type = typename if_then_else<
+        is_array<U>::value,////Если T имя типа "массив элементов типа U" или "ссылка на массив элементов типа U",
+        remove_extent, //// то определение типа будет U*
         typename if_then_else< //иначе - проверяем является ли это типом функции
-            std::is_function<U>::value,
-            typename std::add_pointer<U>::type, //если да - возвращаем указатель
-            typename std::remove_cv<U>::type //в противном случая, удаляем cv-qualifiers
+            is_function<U>::value,
+            add_pointer, //если да - возвращаем указатель
+            remove_const<U> //в противном случая, удаляем константность
         >::type
-    >::type type; // // и определяем тип как тип typedef члена
+    >::type; // // и определяем тип как тип typedef члена
 };
 
-//структура для проверки нашего преобразования
-template <typename T, typename U>
-struct decay_equiv :
-    std::is_same<typename decay<T>::type, U>::type
-{};
+template<typename T, typename U>
+using dec_equiv = typename std::is_same<typename decay<T>::type, U>::type;
+
 
 int main()
 {
     std::cout << std::boolalpha // вкл булевские значения и проверяем
-    << decay_equiv<int, int>::value << '\n'
-    << decay_equiv<int&, int>::value << '\n'
-    << decay_equiv<int&&, int>::value << '\n'
-    << decay_equiv<const int&, int>::value << '\n'
-    << decay_equiv<int[2], int*>::value << '\n'
-    << decay_equiv<int(int), int(*)(int)>::value << '\n';
+    << dec_equiv<int, int>::value << '\n'
+    << dec_equiv<int&, int>::value << '\n'
+    << dec_equiv<int&&, int>::value<< '\n'
+    << dec_equiv<const int&, int>::value << '\n'
+    << dec_equiv<int[2], int*>::value << '\n'
+    << dec_equiv<int(int), int(*)(int)>::value << '\n';
     return 0;
 }
+

@@ -28,6 +28,10 @@ typename enable_if<is_integral<T>::value,bool>::type
 template<typename T>
 using enable_if_t = typename enable_if<is_integral<T>::value>::type;
 
+template< bool B, class T = void > 
+using enable_if_t = typename enable_if<B,T>::type;
+
+
 // второй аргумент шаблона действителен, если T является целочисленным типом
 template < typename T, typename = enable_if_t<T>>
 bool is_even (T i) {return !bool(i%2);} //отрицание bool

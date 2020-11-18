@@ -4,26 +4,15 @@
 #include <iostream>
 #include <type_traits>
 
-//псевдонимы
-using t = std::true_type;
-using f = std::false_type;
 // основа и специализации для обычной, вариативной, константной, ссылочной
-template<class>
-struct is_function : f { };
+template<typename>
+struct is_function : std::false_type { };
 
-template<class Ret, class... Args>
-struct is_function<Ret(Args...)> : t {};
+template<typename Ret, typename... Args>
+struct is_function<Ret(Args...)> : std::true_type {};
  
-template<class Ret, class... Args>
-struct is_function<Ret(Args...) const> : t {};
-
-// specialization for function types that have ref-qualifiers
-template<class Ret, class... Args>
-struct is_function<Ret(Args...) &> : t {};
-
-template<class Ret, class... Args>
-struct is_function<Ret(Args...) const &> : t {};
-
+template<typename Ret, typename... Args>
+struct is_function<Ret(Args...) const> : std::true_type {};
 
 //для примера
 struct A {

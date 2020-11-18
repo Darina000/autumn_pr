@@ -50,6 +50,7 @@ struct is_array<T[]> : std::true_type {};
 template<typename T, std::size_t N>
 struct is_array<T[N]> : std::true_type {};
 
+//шаблон переменной
 template <typename U >
 const bool is_array_t =  is_array <U>::value;
 

@@ -17,6 +17,7 @@ struct if_then_else < false, True_Type, False_Type >
     using type = False_Type;
 };
 
+//шаблон псевдонимов
 template < bool C, typename TT, typename FT >
 using if_then_else_t = typename if_then_else < C, TT, FT >::type;
 
@@ -36,6 +37,9 @@ struct is_function<Ret(Args...)> : std::true_type {};
 template<typename Ret, typename... Args>
 struct is_function<Ret(Args...) const> : std::true_type {};
 
+//шаблон переменной 
+template <typename U >
+const bool is_function_t =  is_function <U>::value;
 
 template<typename T>
 struct is_array : std::false_type {};
@@ -49,8 +53,7 @@ struct is_array<T[N]> : std::true_type {};
 template <typename U >
 const bool is_array_t =  is_array <U>::value;
 
-template <typename U >
-const bool is_function_t =  is_function <U>::value;
+
 
 
 template< typename T >
@@ -90,5 +93,4 @@ int main()
     << is_same_v<int(int), int(*)(int)> << '\n';
     return 0;
 }
-
 

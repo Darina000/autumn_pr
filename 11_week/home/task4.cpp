@@ -2,29 +2,39 @@
 //  Copyright © 2020 Дарья Землянская. All rights reserved.
 //
 
+
 #include <type_traits>
 #include <iostream>
 
-template<bool B, class T = void>
+template<bool B, typename T = void>
 struct enable_if {};
  
-template<class T>
-struct enable_if<true, T> { typedef T type; };
+template<typename T>
+struct enable_if<true, T> { using type = T;};
 
 //варианты использования enable_if
 // тип возврата (bool) допустим, если T - целочисленный тип:
-template <class T>
-typename enable_if<std::is_integral<T>::value,bool>::type
+
+template <typename T>
+using is_integral = typename std::is_integral<T>;
+
+
+template <typename T>
+typename enable_if<is_integral<T>::value,bool>::type
   is_odd (T i) {return bool(i%2);}
 
+//псевдоним
+template<typename T>
+using enable_if_t = typename enable_if<is_integral<T>::value>::type;
+
 // второй аргумент шаблона действителен, если T является целочисленным типом
-template < class T, class = typename enable_if<std::is_integral<T>::value>::type>
+template < typename T, typename = enable_if_t<T>>
 bool is_even (T i) {return !bool(i%2);} //отрицание bool
 
 
 int main()
 {
-    short int i = 1;  // не компилируется, если тип не целочисленный
+    short int i = 1.8;  // не компилируется, если тип не целочисленный
 
     std::cout << std::boolalpha;
     std::cout << "i is odd: " << is_odd(i) << std::endl;

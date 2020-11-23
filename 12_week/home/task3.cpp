@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 constexpr double exp(double eps)
 {
     double sum = 1.0;
@@ -14,10 +13,8 @@ constexpr double exp(double eps)
     {
         sum += (term *= 1/n);
     }
-
     return sum;
 }
-
 
 int main()
 {

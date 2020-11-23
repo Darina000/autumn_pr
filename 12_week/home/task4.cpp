@@ -3,8 +3,6 @@
 //
 
 #include <iostream>
-#include <vector>
-#include <array>
 
 template<int n, int div>
 struct is_prime_rec

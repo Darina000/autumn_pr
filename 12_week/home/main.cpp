@@ -23,10 +23,9 @@ struct BinominalK
     static const decltype(n) value = Factorial <n> ::value /Factorial <k> ::value/ Factorial <n-k> ::value;
 };
 
-int main(int argc, char ** argv)
+int main()
 {
     std::cout << BinominalK<2, 2>::value << std::endl;
-
-
+    
     return 0;
 }

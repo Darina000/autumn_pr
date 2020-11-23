@@ -7,12 +7,13 @@
 constexpr double exp(double eps)
 {
     double sum = 1.0;
-    double term = 1.0;
+    double s = 1.0;
 
-    for(double n = 1.0; term > eps; ++n)
+    for(double n = 1.0; s > eps; ++n)
     {
-        sum += (term *= 1/n);
+        sum += (s *= 1/n);
     }
+
     return sum;
 }
 
